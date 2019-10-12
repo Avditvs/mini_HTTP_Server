@@ -1,5 +1,5 @@
 #include "traitement.h"
 
-int gererLaRequete(int socketServeur){
+int gererRequete(int socketServeur){
     return 0;
 }
