@@ -5,5 +5,5 @@ Le but de ce projet est de dévepper en serveur HTTP en langage C
 
 ## Etapes a effectuer:
 - [x] faire un makefile
-- [ ] faire la librairie `reseau`
+- [x] faire la librairie `reseau`
 - [ ] faire le reste

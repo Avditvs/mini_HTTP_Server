@@ -1,5 +1,6 @@
 #include "reseau.h"
 
+
 struct sockaddr_in construireAdresseDepuisChaine(char* adresseIP, char* port){
     struct sockaddr_in adresse;
     memset(&adresse,0,sizeof adresse);
@@ -25,7 +26,7 @@ int creerSocketTCPUDPServeur(struct sockaddr_in adresse,int mode){
     }
 }
 
-int creerSocketTDPServeur(struct sockaddr_in adresse){
+int creerSocketTCPServeur(struct sockaddr_in adresse){
     return creerSocketTCPUDPServeur(adresse,SOCK_STREAM);
 }
 
