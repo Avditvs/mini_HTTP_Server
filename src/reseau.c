@@ -25,7 +25,7 @@ int creerSocketTCPUDPServeur(struct sockaddr_in adresse,int mode){
     }
 }
 
-in creerSocketUDPServeur(struct sockaddr_in adresse){
-    return creerSocketTCPUDPServeur(adresse,SOCK_DGRAM);
+int creerSocketTDPServeur(struct sockaddr_in adresse){
+    return creerSocketTCPUDPServeur(adresse,SOCK_STREAM);
 }
 
