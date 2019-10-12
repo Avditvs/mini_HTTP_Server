@@ -11,7 +11,7 @@ int ecouter(int socketServeur,int longueurFileDAttente){
     int erreur=0;
     erreur=listen(socketServeur,longueurFileDAttente);
     while(erreur!=-1){
-        erreur = traiterUneRequete(socketServeur);
+        erreur = gererLaRequete(socketServeur);
     }
     return erreur;
 }
