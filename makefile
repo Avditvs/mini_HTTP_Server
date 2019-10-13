@@ -6,9 +6,9 @@ CC = gcc
 AR = ar
 EXEC = server
 
-OFILES = $(SRCDIR)/reseau.o $(SRCDIR)/traitement.o $(SRCDIR)/serveur.o 
+OFILES = $(SRCDIR)/reseau.o $(SRCDIR)/http.o $(SRCDIR)/traitement.o $(SRCDIR)/serveur.o 
 
-CFLAGS=-Wall -pedantic -I$(INCLUDEDIR)
+CFLAGS=-Wall -pedantic -I$(INCLUDEDIR) -g
 LDFLAGS=-L$(LIBDIR) -I$(INCLUDEDIR)
 
 $(BINDIR)/$(EXEC) : $(OFILES)

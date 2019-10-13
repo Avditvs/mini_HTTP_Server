@@ -1,26 +1,5 @@
 #include "traitement.h"
 
-int sendHttpResponse(FILE* file, int socketClient)
-{
-    int erreur;
-    char* httpHeader = malloc(500*sizeof(char));
-    strcpy(httpHeader, "HTTP/1.0 200 OK\r\n\n");
-
-    fseek(file, 0, SEEK_END);
-    int contentLenght = ftell(file);
-    rewind(file);
-
-    char* responseData = malloc(contentLenght+1);
-    fread(responseData, contentLenght, 1, file);
-    responseData[contentLenght]=0;
-    
-    erreur = send(socketClient, httpHeader, strlen(httpHeader)*sizeof(char),0);
-    erreur = send(socketClient, responseData, contentLenght, 0);
-
-    free(httpHeader);
-    free(responseData);
-    return erreur;
-}
 
 int traiterRequete(int socketClient){
     char* buffer = malloc(TAILLE_BUFFER*sizeof(char));
@@ -32,22 +11,11 @@ int traiterRequete(int socketClient){
         i++;
         getRequest = strtok(NULL, " ");
     }
-    printf("%s\n", getRequest);
+    sendHttpResponse(getRequest, socketClient);
+    close(socketClient);
 
-    FILE* fptr;
-    fptr = fopen(getRequest+1,"r");
-    if(!fptr){
-        return -1;
-    }
-    else{
-        
-        sendHttpResponse(fptr, socketClient);
-        close(socketClient);
-    }
-
-    free(buffer);
-
-
+    free(buffer); buffer=NULL;
+    getRequest = NULL;
     return -1;
 }
 
