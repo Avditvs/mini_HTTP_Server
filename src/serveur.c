@@ -28,5 +28,5 @@ int main(int argc, char** argv){
     if( argc >= 3 )
         portServeur=argv[2];
 
-    printf("%i", obtenirSocketServeur(adresseServeur, portServeur));
+    ecouter(obtenirSocketServeur(adresseServeur, portServeur),50);
 }
