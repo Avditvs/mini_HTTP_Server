@@ -37,6 +37,7 @@ char* endHeader(char* httpHeader){
     char* newHeader = malloc((strlen(httpHeader)+1)*sizeof(char));
     strcpy(newHeader, httpHeader);
     strcpy(newHeader+strlen(newHeader), "\n");
+    free(httpHeader);
     return newHeader;
 }
 
@@ -53,7 +54,7 @@ char* addContentType(char* httpHeader, char* fileName){
     }else{
         httpHeader = addHeaderField(httpHeader,"content-type", "text/plain");
     }
-    //free(extension);
+
     free(copyFn);
     return httpHeader;
 }
@@ -103,7 +104,6 @@ int sendHttpResponse(char* fileName, int socketClient)
 
         free(httpHeader); httpHeader=NULL;
         free(responseData); responseData=NULL;
-        free(fptr); fptr=NULL;
         return erreur;
     }
 }

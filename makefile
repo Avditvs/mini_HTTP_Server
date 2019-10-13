@@ -8,7 +8,7 @@ EXEC = server
 
 OFILES = $(SRCDIR)/reseau.o $(SRCDIR)/http.o $(SRCDIR)/traitement.o $(SRCDIR)/serveur.o 
 
-CFLAGS=-Wall -pedantic -I$(INCLUDEDIR) -g
+CFLAGS=-Wall -pedantic -I$(INCLUDEDIR)
 LDFLAGS=-L$(LIBDIR) -I$(INCLUDEDIR)
 
 $(BINDIR)/$(EXEC) : $(OFILES)
