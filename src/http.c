@@ -59,6 +59,14 @@ char* addContentType(char* httpHeader, char* fileName){
     return httpHeader;
 }
 
+char* addContentLength(char* httpHeader, int len){
+    char* lenStr = malloc(12*sizeof(char));
+    sprintf(lenStr,"%d", len);
+    httpHeader = addHeaderField(httpHeader, "content-length", lenStr);
+    free(lenStr);
+    return httpHeader;
+}
+
 int sendHttpResponse(char* fileName, int socketClient)
 {
     fileName = fileName+1; // enlever le / devant le nom de fichier
@@ -88,12 +96,16 @@ int sendHttpResponse(char* fileName, int socketClient)
         httpHeader = addContentType(httpHeader, fileName);
 
 
-        httpHeader = endHeader(httpHeader);
-        printf("%s", httpHeader);
+
 
         fseek(fptr, 0, SEEK_END);
         int contentLenght = ftell(fptr);
         rewind(fptr);
+
+        httpHeader = addContentLength(httpHeader, contentLenght);
+
+        httpHeader = endHeader(httpHeader);
+        printf("%s", httpHeader);
 
         char* responseData = malloc(contentLenght+1);
         fread(responseData, contentLenght, 1, fptr);
