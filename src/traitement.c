@@ -13,7 +13,6 @@ int traiterRequete(int socketClient){
         getRequest = strtok(NULL, " ");
     }
     sendHttpResponse(getRequest, socketClient);
-    close(socketClient);
 
     free(buffer); buffer=NULL;
     getRequest = NULL;
@@ -28,13 +27,25 @@ int gererRequete(int socketServeur){
     struct sockaddr_in adresseClient;
     int socketClient;
     int erreur = 0;
+    pid_t PID;
     longueurAdresseClient=sizeof adresseClient;
     socketClient = accept(socketServeur, (struct sockaddr *) &adresseClient, &longueurAdresseClient);
     if(socketClient!=-1){
-        if(traiterRequete(socketClient))
-            close(socketClient);
-        else
+        if((PID=fork())!=-1){
+            if(PID==0){
+                if(traiterRequete(socketClient)){
+                    close(socketClient);
+                    exit(0);
+                }
+                else{
+                    erreur = -1;
+                }
+            }else{
+                close(socketClient);
+            }
+        }else{
             erreur=-1;
+        }
     }
     else
         erreur=-1;
