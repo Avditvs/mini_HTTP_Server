@@ -2,8 +2,9 @@
 
 
 int traiterRequete(int socketClient){
-    char* buffer = malloc(TAILLE_BUFFER*sizeof(char));
+    char* buffer = calloc(1, TAILLE_BUFFER*sizeof(char));
     read(socketClient, buffer, TAILLE_BUFFER);
+    printf("Requete : \n %s\n", buffer);
     char* getRequest = strtok(buffer, "\n");
     int i =0;
     getRequest = strtok(getRequest, " ");
