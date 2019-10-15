@@ -27,20 +27,26 @@ int main(int argc, char** argv){
     char* param;
     char* root = malloc(100*sizeof(char));
     int erreur;
+
+    strcpy(adresseServeur, "127.0.0.1");
+    strcpy(portServeur, "8080");
+    strcpy(root, "www");
+
     if(argc>=2){
         fichierConfig = argv[1];
         if( access( fichierConfig, F_OK ) == -1 ) {
             fichierConfig = "/etc/serverHttp.conf";
+            printf("%s\n", "Fichier de config introuvable, utilisation de /etc/serverHttp.conf");
         }
     }else{
         fichierConfig = "/etc/serverHttp.conf";
+        printf("Pas de configuration spécifiée, utilisation de /etc.serverHttp.conf\n");
     }
 
     
     FILE* config = fopen(fichierConfig, "r");
     if(!config){
-        printf("%s\n", "Fichier de configuration introuvable");
-        exit(1);
+        printf("%s\n", "Fichier de configuration /etc/serverHttp.conf introuvable, utilisation des paramètres par défaut");
     }else{
         while (fgets(str, 99, config) != NULL){
             if(strlen(str)>1){
@@ -58,6 +64,7 @@ int main(int argc, char** argv){
             }
         }
         fclose(config);
+    }
 
         printf("%s", "Starting server on port ");
         printf("%s", portServeur);
@@ -69,5 +76,4 @@ int main(int argc, char** argv){
         erreur = ecouter(obtenirSocketServeur(adresseServeur, portServeur),10, root);
         free(root);
         printf("%i", erreur);
-    }
 }
