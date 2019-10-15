@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 
 int sendHttpResponse(char* fileName, int socketClient);

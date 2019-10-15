@@ -70,16 +70,23 @@ char* addContentLength(char* httpHeader, int len){
     return httpHeader;
 }
 
+int is_file(const char* path) {
+    struct stat buf;
+    stat(path, &buf);
+    return S_ISREG(buf.st_mode);
+}
+
 int sendHttpResponse(char* fileName, int socketClient)
 {
-    fileName = fileName+1; // enlever le / devant le nom de fichier
+    //fileName = fileName+1; // enlever le / devant le nom de fichier
     FILE* fptr;
+    printf("%s\n", fileName);
     fptr = fopen(fileName,"r");
     char* httpHeader;
     int erreur;
     int contentLenght;
     char* responseData;
-    if(!fptr){
+    if(!fptr||!is_file(fileName)){
         httpHeader = generateHttpHeader(404);
         httpHeader = endHeader(httpHeader);
         erreur = send(socketClient, httpHeader, strlen(httpHeader)*sizeof(char),0);
@@ -109,6 +116,7 @@ int sendHttpResponse(char* fileName, int socketClient)
         free(responseData); responseData=NULL;
 
     }
+    free(fileName);
     printf("Réponse :\n%s\n", httpHeader);
     free(httpHeader); httpHeader=NULL;
     return erreur;

@@ -1,7 +1,7 @@
 #include "traitement.h"
 
 
-int traiterRequete(int socketClient){
+int traiterRequete(int socketClient, char* root){
     char* buffer = calloc(1, TAILLE_BUFFER*sizeof(char));
     read(socketClient, buffer, TAILLE_BUFFER);
     printf("Requete : \n %s\n", buffer);
@@ -12,8 +12,11 @@ int traiterRequete(int socketClient){
         i++;
         getRequest = strtok(NULL, " ");
     }
-    sendHttpResponse(getRequest, socketClient);
-
+    char* adresseFichier = malloc(100*sizeof(char));
+    strcpy(adresseFichier, root);
+    strcat(adresseFichier, getRequest);
+    free(root);
+    sendHttpResponse(adresseFichier, socketClient);
     free(buffer); buffer=NULL;
     getRequest = NULL;
     return -1;
@@ -22,7 +25,7 @@ int traiterRequete(int socketClient){
 
 
 
-int gererRequete(int socketServeur){
+int gererRequete(int socketServeur, char* root){
     socklen_t longueurAdresseClient;
     struct sockaddr_in adresseClient;
     int socketClient;
@@ -33,7 +36,7 @@ int gererRequete(int socketServeur){
     if(socketClient!=-1){
         if((PID=fork())!=-1){
             if(PID==0){
-                if(traiterRequete(socketClient)){
+                if(traiterRequete(socketClient, root)){
                     close(socketClient);
                     exit(0);
                 }
@@ -44,11 +47,12 @@ int gererRequete(int socketServeur){
                 close(socketClient);
             }
         }else{
-            erreur=-1;
+            erreur=ERR_FORK;
         }
     }
-    else
-        erreur=-1;
+    else{
+        erreur=ERR_SOCKCLI;
+    }
     return erreur;
 }
 
