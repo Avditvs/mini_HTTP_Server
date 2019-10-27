@@ -14,7 +14,12 @@ int traiterRequete(int socketClient, char* root){
     }
     char* adresseFichier = malloc(100*sizeof(char));
     strcpy(adresseFichier, root);
+    if(strlen(getRequest)<2){
+        strcat(adresseFichier,"/index.html");
+    }else{
+
     strcat(adresseFichier, getRequest);
+    }
     free(root);
     sendHttpResponse(adresseFichier, socketClient);
     free(buffer); buffer=NULL;

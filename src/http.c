@@ -80,7 +80,6 @@ int sendHttpResponse(char* fileName, int socketClient)
 {
     //fileName = fileName+1; // enlever le / devant le nom de fichier
     FILE* fptr;
-    printf("%s\n", fileName);
     fptr = fopen(fileName,"r");
     char* httpHeader;
     int erreur;

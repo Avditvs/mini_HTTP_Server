@@ -23,8 +23,8 @@ int main(int argc, char** argv){
     char* portServeur = malloc(100*sizeof(char));
     char* fichierConfig;
     char* str = malloc(100*sizeof(char));
-    char* conf;
-    char* param;
+    char* conf = malloc(100);
+    char* param = malloc(100);
     char* root = malloc(100*sizeof(char));
     int erreur;
 
@@ -49,9 +49,8 @@ int main(int argc, char** argv){
         printf("%s\n", "Fichier de configuration /etc/serverHttp.conf introuvable, utilisation des paramètres par défaut");
     }else{
         while (fgets(str, 99, config) != NULL){
-            if(strlen(str)>1){
-                conf = strtok(str, "=");
-                param = strtok(NULL, "=");
+            if(strchr(str, '=')){
+                sscanf(str, "%s=%s", conf, param);
                 param[strlen(param)-1]='\0';
 
                 if(strcmp(conf, "websiteRoot")==0){
