@@ -49,16 +49,18 @@ int main(int argc, char** argv){
         printf("%s\n", "Fichier de configuration /etc/serverHttp.conf introuvable, utilisation des paramètres par défaut");
     }else{
         while (fgets(str, 99, config) != NULL){
-            if(strchr(str, '=')){
-                sscanf(str, "%s=%s", conf, param);
-                param[strlen(param)-1]='\0';
-
+            if(sscanf(str, "%s %s", conf, param)!=0){ 
                 if(strcmp(conf, "websiteRoot")==0){
                     strcpy(root, param);
                 }else if(strcmp(conf, "ipAddr")==0){
                     strcpy(adresseServeur, param);
                 }else if(strcmp(conf, "port")==0){
                     strcpy(portServeur, param);
+                }else if(conf[0]=='#'){
+
+                }else{
+                    printf("Erreur fichier de config invalide");
+                    exit(1);
                 }
             }
         }

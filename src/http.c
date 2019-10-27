@@ -87,6 +87,7 @@ int sendHttpResponse(char* fileName, int socketClient)
     char* responseData;
     if(!fptr||!is_file(fileName)){
         httpHeader = generateHttpHeader(404);
+        httpHeader = addContentType(httpHeader, ".html");
         httpHeader = endHeader(httpHeader);
         erreur = send(socketClient, httpHeader, strlen(httpHeader)*sizeof(char),0);
         erreur = send(socketClient, "<h2>Erreur 404 : Fichier introuvable</h2>", strlen("<h2>Erreur 404 : Fichier introuvable</h2>")*sizeof(char), 0);
